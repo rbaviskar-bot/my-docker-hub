@@ -26,5 +26,5 @@ jobs:
         with:
           Context: .
           push: true
-          tags: your-dockerhub-rbaviskar777/myapp:latest 
+          tags: rbaviskar777/myapp:latest 
          
