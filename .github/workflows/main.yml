@@ -24,6 +24,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
+<<<<<<< HEAD
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
@@ -53,4 +54,9 @@ jobs:
       #     Context: .
       #     push: true
       #     tags: rbaviskar777/myapp:latest 
+=======
+          Context: .
+          push: true
+          tags: rbaviskar777/myapp:latest 
+>>>>>>> 180e4c0c78daebd402d1a5d0ba63247e29538916
          
