@@ -53,9 +53,5 @@ jobs:
       #     Context: .
       #     push: true
       #     tags: rbaviskar777/myapp:latest 
-=======
-          Context: .
-          push: true
-          tags: rbaviskar777/myapp:latest 
->>>>>>> 180e4c0c78daebd402d1a5d0ba63247e29538916
+
          
