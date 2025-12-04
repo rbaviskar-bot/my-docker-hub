@@ -7,7 +7,7 @@ on:
       
 env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
-  ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+  ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
   IMAGE_TAG: latest
 
 jobs:
