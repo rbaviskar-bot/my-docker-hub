@@ -28,7 +28,11 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           
       - name: Login to Amazon ECR
+        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+      
+      - name: Debug registry output
+        run: echo "REGISTRY=${{ steps.login-ecr.outputs.registry }}"
 
       - name: Build and Push Docker image
         uses: docker/build-push-action@v5
