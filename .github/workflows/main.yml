@@ -54,13 +54,16 @@ jobs:
           ls -la /home/runner/work/my-docker-hub/my-docker-hub || true
 
 
+        
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ github.workspace }}/ABC.json
-          service: ABC-service-b4q8zb0d 
-          cluster: default
+          task-definition: ecs-task-def.json
+          service: my-ecs-service
+          cluster: my-ecs-cluster
           wait-for-service-stability: true
+        
+
 
 
       
