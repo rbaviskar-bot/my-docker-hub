@@ -42,6 +42,22 @@ jobs:
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 
+      - name: Add SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ABC.json
+          service: ABC-service-b4q8zb0d 
+          cluster: default
+          wait-for-service-stability: true
+
+
+      
+
       # - name: Build and Push Docker image
       #   uses: docker/build-push-action@v5
       #   with:
