@@ -46,6 +46,13 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+      
+      - name: Debug workspace
+        run: |
+          echo "CWD: $(pwd)"
+          ls -la
+          ls -la /home/runner/work/my-docker-hub/my-docker-hub || true
+
 
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
