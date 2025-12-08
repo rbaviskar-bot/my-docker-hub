@@ -50,7 +50,7 @@ jobs:
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ABC.json
+          task-definition: ABC
           service: ABC-service-b4q8zb0d 
           cluster: default
           wait-for-service-stability: true
