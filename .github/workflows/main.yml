@@ -51,7 +51,7 @@ jobs:
 
           ACCOUNT_ID="${{ secrets.AWS_ACCOUNT_ID }}"
           REGION="${{ secrets.AWS_REGION }}"
-          REPO="${{ var.ECR_REPOSITORY }}"
+          REPO="${{ vars.ECR_REPOSITORY }}"
           ECR_REGISTRY="${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com"
           IMAGE_URI="${ECR_REGISTRY}/${REPO}:${TAG}"
 
