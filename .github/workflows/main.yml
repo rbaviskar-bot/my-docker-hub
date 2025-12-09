@@ -42,15 +42,56 @@ jobs:
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 
-      - name: Deploy to EC2 
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            docker pull 126537948162.dkr.ecr.us-east-1.amazonaws.com/vm:latest
-            docker run -d --name vm -p 80:80 126537948162.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/vm
+
+      
+      - name: Deploy on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          set -euxo pipefail
+
+          ACCOUNT_ID="${{ secrets.AWS_ACCOUNT_ID }}"
+          REGION="${{ secrets.AWS_REGION }}"
+          REPO="${{ var.ECR_REPOSITORY }}"
+          ECR_REGISTRY="${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com"
+          IMAGE_URI="${ECR_REGISTRY}/${REPO}:${TAG}"
+
+          # Ensure Docker & AWS CLI exist (Ubuntu/Amazon Linux)
+          if ! command -v docker >/dev/null 2>&1; then
+            sudo apt-get update -y || true
+            sudo apt-get install -y docker.io || sudo yum install -y docker
+            sudo systemctl enable --now docker || sudo service docker start
+          fi
+          if ! command -v aws >/dev/null 2>&1; then
+            curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            sudo apt-get install -y unzip || true
+            unzip awscliv2.zip && sudo ./aws/install && rm -rf aws awscliv2.zip
+          fi
+
+          # ECR login on EC2 (requires EC2 IAM role or configured keys)
+          aws sts get-caller-identity
+          aws ecr get-login-password --region "$REGION" \
+            | sudo docker login --username AWS --password-stdin "$ECR_REGISTRY"
+
+          # Pull & run
+          sudo docker pull "$IMAGE_URI"
+          sudo docker stop vm || true
+          sudo docker rm vm || true
+          sudo docker run -d --name vm -p 80:80 "$IMAGE_URI"
+
+          sudo docker ps
+          sudo docker logs --tail=100 vm || true
+        EOF
+
+
+      # - name: Deploy to EC2 
+      #   uses: appleboy/ssh-action@v0.1.10
+      #   with:
+      #     host: ${{ secrets.EC2_HOST }}
+      #     username: ${{ secrets.EC2_USER }}
+      #     key: ${{ secrets.EC2_SSH_KEY }}
+      #     script: |
+      #       docker pull 126537948162.dkr.ecr.us-east-1.amazonaws.com/vm:latest
+      #       docker run -d --name vm -p 80:80 126537948162.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/vm
 
 
 
