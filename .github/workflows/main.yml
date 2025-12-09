@@ -52,7 +52,7 @@ jobs:
             docker stop my-app || true
             docker rm my-app || true
             docker pull 126537948162.dkr.ecr.us-east-1.amazonaws.com/vm
-            docker run -d --name my-app -p 80:80 126537948162.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/vm
+            docker run -d --name vm -p 80:80 126537948162.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/vm
 
 
 
