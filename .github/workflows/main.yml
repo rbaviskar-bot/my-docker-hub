@@ -49,9 +49,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker stop my-app || true
-            docker rm my-app || true
-            docker pull 126537948162.dkr.ecr.us-east-1.amazonaws.com/vm
+            docker pull 126537948162.dkr.ecr.us-east-1.amazonaws.com/vm:latest
             docker run -d --name vm -p 80:80 126537948162.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/vm
 
 
