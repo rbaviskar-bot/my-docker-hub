@@ -80,7 +80,7 @@ jobs:
 
           sudo docker ps
           sudo docker logs --tail=100 vm || true
-        EOF
+          EOF
 
 
       # - name: Deploy to EC2 
