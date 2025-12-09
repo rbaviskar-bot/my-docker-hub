@@ -50,7 +50,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker pull 126537948162.dkr.ecr.us-east-1.amazonaws.com/vm:latest
-            docker run -d --name vm2 -p 5000:5000 126537948162.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/vm
+            docker run -d --name vm2 -p 5000:5000 126537948162.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/vm:latest
 
 
 
