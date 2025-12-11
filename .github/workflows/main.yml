@@ -41,7 +41,7 @@ jobs:
           push: true
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
-            
+
       - name: Render ECS task definition
         id: render
         uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -55,7 +55,7 @@ jobs:
         with:
           task-definition: ${{ steps.render.outputs.task-definition }}
           service: myapp-service
-          cluster: myapp-cluster
+          cluster: my_app
           wait-for-service-stability: true
 
 
